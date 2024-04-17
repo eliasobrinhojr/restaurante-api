@@ -39,8 +39,12 @@ public class ProdutoController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<?> delete(@RequestParam(value = "id") Long id) {
-        produtoService.deletarProduto(id);
-        return ResponseEntity.ok(HttpStatus.OK);
+    public ResponseEntity<String> delete(@RequestParam(value = "id") Long id) {
+        try {
+            produtoService.deletarProduto(id);
+            return ResponseEntity.status(HttpStatus.OK).body("Registro Deletado com sucesso");
+        } catch (ProdutoNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 }
