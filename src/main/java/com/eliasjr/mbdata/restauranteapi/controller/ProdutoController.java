@@ -4,6 +4,7 @@ import com.eliasjr.mbdata.restauranteapi.controller.request.ProdutoRequest;
 import com.eliasjr.mbdata.restauranteapi.exception.ProdutoNotFoundException;
 import com.eliasjr.mbdata.restauranteapi.model.Produto;
 import com.eliasjr.mbdata.restauranteapi.service.ProdutoService;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,16 +21,19 @@ public class ProdutoController {
     private ProdutoService produtoService;
 
     @PostMapping("/create")
+    @ApiResponse(description = "Cadastra um novo produto")
     public ResponseEntity<?> create(@Valid @RequestBody ProdutoRequest produtoDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(produtoService.criarProduto(produtoDto));
     }
 
     @GetMapping("/list")
+    @ApiResponse(description = "Lista todos os produtos paginados")
     public ResponseEntity<Page<Produto>> list(Pageable pageable) {
         return ResponseEntity.status(HttpStatus.OK).body(produtoService.listarProdutos(pageable));
     }
 
     @PutMapping("/update")
+    @ApiResponse(description = "Atualiza registro do produto")
     public ResponseEntity<?> update(@RequestParam(value = "id") Long id, @Valid @RequestBody ProdutoRequest produtoDto) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(produtoService.atualizarProduto(id, produtoDto));
@@ -39,6 +43,7 @@ public class ProdutoController {
     }
 
     @DeleteMapping("/delete")
+    @ApiResponse(description = "Deleta registro do produto")
     public ResponseEntity<String> delete(@RequestParam(value = "id") Long id) {
         try {
             produtoService.deletarProduto(id);
