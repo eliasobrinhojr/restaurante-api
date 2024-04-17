@@ -1,6 +1,7 @@
 package com.eliasjr.mbdata.restauranteapi.service.impl;
 
 import com.eliasjr.mbdata.restauranteapi.controller.request.ProdutoRequest;
+import com.eliasjr.mbdata.restauranteapi.exception.ProdutoNotFoundException;
 import com.eliasjr.mbdata.restauranteapi.model.Produto;
 import com.eliasjr.mbdata.restauranteapi.repository.ProdutoRepository;
 import com.eliasjr.mbdata.restauranteapi.service.ProdutoService;
@@ -31,11 +32,12 @@ public class ProdutoServiceImpl implements ProdutoService {
 
     @Override
     public Produto atualizarProduto(Long id, ProdutoRequest produtoAtualizado) {
-        Produto produto = produtoRepository.findById(id).orElseThrow(() -> new RuntimeException("Produto nao encontrado"));
-        produto.setNome(produtoAtualizado.getNome());
-        produto.setPreco(produtoAtualizado.getPreco());
-        produto.setCategoria(produtoAtualizado.getCategoria());
-        return produtoRepository.save(produto);
+        return produtoRepository.findById(id).map(produto -> {
+            produto.setNome(produtoAtualizado.getNome());
+            produto.setPreco(produtoAtualizado.getPreco());
+            produto.setCategoria(produtoAtualizado.getCategoria());
+            return produtoRepository.save(produto);
+        }).orElseThrow(() -> new ProdutoNotFoundException("Produto com id " + id + " nao encontrado"));
     }
 
     @Override

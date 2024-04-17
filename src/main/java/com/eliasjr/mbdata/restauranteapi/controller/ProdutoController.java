@@ -1,6 +1,7 @@
 package com.eliasjr.mbdata.restauranteapi.controller;
 
 import com.eliasjr.mbdata.restauranteapi.controller.request.ProdutoRequest;
+import com.eliasjr.mbdata.restauranteapi.exception.ProdutoNotFoundException;
 import com.eliasjr.mbdata.restauranteapi.model.Produto;
 import com.eliasjr.mbdata.restauranteapi.service.ProdutoService;
 import jakarta.validation.Valid;
@@ -29,8 +30,12 @@ public class ProdutoController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Produto> update(@RequestParam(value = "id") Long id, @Valid @RequestBody ProdutoRequest produtoDto) {
-        return ResponseEntity.status(HttpStatus.OK).body(produtoService.atualizarProduto(id, produtoDto));
+    public ResponseEntity<?> update(@RequestParam(value = "id") Long id, @Valid @RequestBody ProdutoRequest produtoDto) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(produtoService.atualizarProduto(id, produtoDto));
+        } catch (ProdutoNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/delete")
