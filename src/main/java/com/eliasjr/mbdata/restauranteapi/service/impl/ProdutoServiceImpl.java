@@ -6,9 +6,9 @@ import com.eliasjr.mbdata.restauranteapi.model.Produto;
 import com.eliasjr.mbdata.restauranteapi.repository.ProdutoRepository;
 import com.eliasjr.mbdata.restauranteapi.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class ProdutoServiceImpl implements ProdutoService {
@@ -26,8 +26,8 @@ public class ProdutoServiceImpl implements ProdutoService {
     }
 
     @Override
-    public List<Produto> listarProdutos() {
-        return produtoRepository.findAll();
+    public Page<Produto> listarProdutos(Pageable pageable) {
+        return produtoRepository.findAll(pageable);
     }
 
     @Override

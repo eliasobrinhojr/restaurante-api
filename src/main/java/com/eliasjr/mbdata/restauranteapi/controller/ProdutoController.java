@@ -6,11 +6,11 @@ import com.eliasjr.mbdata.restauranteapi.model.Produto;
 import com.eliasjr.mbdata.restauranteapi.service.ProdutoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RequestMapping("api/produto")
 @RestController
@@ -25,8 +25,8 @@ public class ProdutoController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<Produto>> list() {
-        return ResponseEntity.status(HttpStatus.OK).body(produtoService.listarProdutos());
+    public ResponseEntity<Page<Produto>> list(Pageable pageable) {
+        return ResponseEntity.status(HttpStatus.OK).body(produtoService.listarProdutos(pageable));
     }
 
     @PutMapping("/update")
