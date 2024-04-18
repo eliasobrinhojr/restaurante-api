@@ -7,6 +7,7 @@ import com.eliasjr.mbdata.restauranteapi.model.Produto;
 import com.eliasjr.mbdata.restauranteapi.repository.PedidoRepository;
 import com.eliasjr.mbdata.restauranteapi.repository.ProdutoRepository;
 import com.eliasjr.mbdata.restauranteapi.service.PedidoService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.List;
 
+@Slf4j
 @Service
 public class PedidoServiceImpl implements PedidoService {
 
@@ -26,6 +28,8 @@ public class PedidoServiceImpl implements PedidoService {
 
     @Override
     public Pedido criarPedido(List<Long> idsProdutos) {
+        log.info("Criadno um novo pedido = {}", idsProdutos);
+
         List<Produto> produtos = produtoRepository.findAllById(idsProdutos);
 
         if (produtos.isEmpty()) {
@@ -46,6 +50,7 @@ public class PedidoServiceImpl implements PedidoService {
 
     @Override
     public Pedido adicionarProdutos(Long id, List<Long> idsProdutos) {
+        log.info("adicionando produtos ao pedido = {}", id);
 
         Pedido pedido = pedidoRepository.findById(id)
                 .orElseThrow(() -> new PedidoNotFoundException("Pedido não encontrado com ID: " + id));
