@@ -56,7 +56,7 @@ public class PedidoController {
     public ResponseEntity<?> adicionarProdutosAoPedido(@PathVariable Long id, @RequestBody List<Long> idsProdutos) {
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(pedidoService.adicionarProdutos(id, idsProdutos));
-        } catch (PedidoNotFoundException e) {
+        } catch (PedidoNotFoundException | ProdutoNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
