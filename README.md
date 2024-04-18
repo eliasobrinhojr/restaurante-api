@@ -1,13 +1,13 @@
 # Restaurante-api
 Expoe endpoints para gerenciamento de restaurante
 
-### Tecnologias
+### Tecnologias e Ferramentas
 - Java 17
 - H2
 - Docker
 - Lombok
 - Gradle
-- Junit
+- Junit, Mockito
 - Swagger
 
 ### Subir aplicacao
