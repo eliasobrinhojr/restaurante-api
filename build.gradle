@@ -11,6 +11,10 @@ java {
     sourceCompatibility = '17'
 }
 
+bootJar {
+    version =  '0.0.1-SNAPSHOT'
+}
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
